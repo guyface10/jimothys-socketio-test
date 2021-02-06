@@ -18,9 +18,10 @@ io.on("connection", (socket) => {
   players.push(newPlayer);
 
   socket.on("disconnect", () => {
-    players.splice(getPlayerIndexByID(socket.id), 1);
+    let player = players.splice(getPlayerIndexByID(socket.id), 1)[0];
 
-    console.log(`Client ${socket.id} disconnected.`);
+    console.log(`Client ${socket.id} (${player.name}) disconnected.`);
+    socket.broadcast.emit("player-left", player.name);
   });
 
   socket.on("chose-name", (name) => {

@@ -37,7 +37,11 @@ function setup() {
   };
 
   socket.on("player-joined", (nickname) => {
-    message.messageContainer.addTextStart(`${nickname} joined!`);
+    messageContainer.addTextStart(`${nickname} joined!`);
+  });
+
+  socket.on("player-left", (nickname) => {
+    messageContainer.addTextStart(`${nickname} left.`);
   });
 
   socket.on("chat-message", (data) => {
