@@ -25,6 +25,8 @@ io.on("connection", (socket) => {
 
   socket.on("chose-name", (name) => {
     players[getPlayerIndexByID(socket.id)].nickname = name;
+    console.log(`Client ${socket.id} chose the nickname ${name}`);
+    io.emit("player-joined", name);
   });
 
   socket.on("player-update", (data) => {

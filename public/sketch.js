@@ -36,6 +36,10 @@ function setup() {
     messageContainer.addTextStart(`You: ${text}`);
   };
 
+  socket.on("player-joined", (nickname) => {
+    message.messageContainer.addTextStart(`${nickname} joined!`);
+  });
+
   socket.on("chat-message", (data) => {
     messageContainer.addTextStart(`${data.sender}: ${data.message}`);
   });
