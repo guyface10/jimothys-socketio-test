@@ -54,6 +54,8 @@ function setup() {
 }
 
 function draw() {
+  resize();
+
   push();
 
   background(0);
@@ -130,4 +132,20 @@ function mouseClicked() {
 
 function calculateTagSize(nickname) {
   return width / 75 + height / 75 - nickname.length / 2;
+}
+
+function resize() {
+  pos.x /= width;
+  pos.y /= height;
+
+  resizeCanvas(window.innerWidth, window.innerHeight);
+  chatInput.w = width;
+  chatInput.h = height / 30;
+  chatInput.y = height - chatInput.h;
+  messageContainer.y = chatInput.y - chatInput.h;
+
+  pos.x *= width;
+  pos.y *= height;
+  size = width / 75 + height / 75;
+  speed = 70 * (width / 500 + height / 500);
 }

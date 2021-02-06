@@ -21,6 +21,8 @@ class InputBox {
   }
 
   draw() {
+    this.textSize = this.w / 100 + this.h / 5;
+
     push();
 
     textAlign(LEFT, CENTER);

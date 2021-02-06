@@ -13,6 +13,9 @@ class TextList {
   }
 
   draw() {
+    this.textSize = width / 100 + height / 100;
+    this.spaceBtwTexts = this.textSize / 1.5;
+
     push();
 
     textAlign(LEFT, CENTER);
