@@ -49,8 +49,8 @@ class InputBox {
 
   onKeyPressed() {
     // t
-    if (keyCode === 84) {
-      this.active = !this.active;
+    if (keyCode === 84 && !this.active) {
+      this.active = true;
       return;
     }
 
