@@ -17,11 +17,11 @@ class InputBox {
     this.onInput = function (outText) {};
 
     this.text = "";
-    this.textSize = constrain((width * height) / 40000, 15, 30);
+    this.textSize = constrain((width * height) / 40000, 15, 15);
   }
 
   draw() {
-    this.textSize = constrain((width * height) / 40000, 15, 30);
+    this.textSize = constrain((width * height) / 40000, 15, 15);
 
     push();
 

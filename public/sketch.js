@@ -31,7 +31,7 @@ function setup() {
 
   let h = height / 25;
   chatInput = new InputBox(0, height - h, width, h, width / (width / 5), "Click or press t to type a message... then press enter to send it.");
-  messageContainer = new TextList(0, chatInput.y - chatInput.h, 22, 40, (drawType = "down"), (shift = true));
+  messageContainer = new TextList(0, chatInput.y - chatInput.h, 22, 40, width / 3, (drawType = "up"), (shift = true));
   messageContainer.addTextStart("Use arrow keys to move around.");
 
   chatInput.onInput = (text) => {
