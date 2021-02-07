@@ -13,6 +13,8 @@ let messageContainer;
 
 let players = [];
 
+let touching = false;
+
 function setup() {
   createCanvas(innerWidth, innerHeight);
 
@@ -23,12 +25,13 @@ function setup() {
   speed = 70 * (width / 500 + height / 500);
 
   nickname = prompt("Choose a nickname.");
-  if (nickname === undefined || nickname === "") nickname = "default";
+  if (nickname === null || nickname.trim() === "") nickname = "default";
+  nickname = nickname.trim();
   socket.emit("chose-name", nickname);
 
-  let h = height / 30;
+  let h = height / 25;
   chatInput = new InputBox(0, height - h, width, h, width / (width / 5), "Click or press t to type a message... then press enter to send it.");
-  messageContainer = new TextList(0, chatInput.y - chatInput.h, 22, (drawType = "down"), (shift = true));
+  messageContainer = new TextList(0, chatInput.y - chatInput.h, 22, 40, (drawType = "down"), (shift = true));
   messageContainer.addTextStart("Use arrow keys to move around.");
 
   chatInput.onInput = (text) => {
@@ -62,6 +65,8 @@ function draw() {
 
   rectMode(CENTER);
   textAlign(CENTER, CENTER);
+
+  if (deviceIsMobile() || deviceIsMobileTablet()) handleTouch();
 
   pos.add(p5.Vector.mult(dir.normalize(), speed * (deltaTime / 1000)));
 
@@ -124,27 +129,12 @@ function keyReleased() {
   if (keyCode === 16) shifting = false;
 }
 
-function touchMoved() {
-  touchStarted();
-}
-
 function touchStarted() {
-  if (mouseY > pos.y + size) {
-    dir.y = 1;
-  }
-  if (mouseY < pos.y - size) {
-    dir.y = -1;
-  }
-  if (mouseX > pos.x + size) {
-    dir.x = 1;
-  }
-  if (mouseX < pos.x - size) {
-    dir.x = -1;
-  }
+  touching = true;
 }
 
 function touchEnded() {
-  dir = createVector();
+  touching = false;
 }
 
 function mouseClicked() {
@@ -152,14 +142,39 @@ function mouseClicked() {
 }
 
 function calculateTagSize(nickname) {
-  return width / 75 + height / 75 - nickname.length / 2;
+  let s = (width * height) / 2500000 / (nickname.length * 0.0025);
+  return constrain(s, size / 1.5, size * 1.1);
+}
+
+function handleTouch() {
+  if (touching) {
+    let padding = size / 2;
+
+    if (mouseY > pos.y + padding) {
+      dir.y = 1;
+    } else if (mouseY < pos.y - padding) {
+      dir.y = -1;
+    } else {
+      dir.y = 0;
+    }
+
+    if (mouseX > pos.x + padding) {
+      dir.x = 1;
+    } else if (mouseX < pos.x - padding) {
+      dir.x = -1;
+    } else {
+      dir.x = 0;
+    }
+  } else {
+    dir = createVector();
+  }
 }
 
 function resize() {
   pos.x /= width;
   pos.y /= height;
 
-  resizeCanvas(window.innerWidth, window.innerHeight);
+  resizeCanvas(innerWidth, innerHeight);
   chatInput.w = width;
   chatInput.h = height / 30;
   chatInput.y = height - chatInput.h;

@@ -1,19 +1,20 @@
 class TextList {
-  constructor(x, y, maxSize, drawType, shiftTexts) {
+  constructor(x, y, maxSize, maxTextWidth, drawType, shiftTexts) {
     this.x = x;
     this.y = y;
 
     this.texts = [];
     this.maxSize = maxSize;
+    this.maxTextWidth = maxTextWidth;
     this.drawType = drawType;
     this.shiftTexts = shiftTexts;
 
-    this.textSize = width / 100 + height / 100;
+    this.textSize = constrain((width * height) / 40000, 15, 30);
     this.spaceBtwTexts = this.textSize / 1.5;
   }
 
   draw() {
-    this.textSize = width / 100 + height / 100;
+    this.textSize = constrain((width * height) / 40000, 15, 30);
     this.spaceBtwTexts = this.textSize / 1.5;
 
     push();
