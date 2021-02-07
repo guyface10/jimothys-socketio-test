@@ -16,7 +16,7 @@ let players = [];
 function setup() {
   createCanvas(innerWidth, innerHeight);
 
-  pos = createVector();
+  pos = createVector(width / 2, height / 2);
   dir = createVector();
 
   size = width / 75 + height / 75;
@@ -62,8 +62,6 @@ function draw() {
 
   rectMode(CENTER);
   textAlign(CENTER, CENTER);
-
-  translate(width / 2, height / 2);
 
   pos.add(p5.Vector.mult(dir.normalize(), speed * (deltaTime / 1000)));
 
@@ -124,6 +122,29 @@ function keyReleased() {
   }
 
   if (keyCode === 16) shifting = false;
+}
+
+function touchMoved() {
+  touchStarted();
+}
+
+function touchStarted() {
+  if (mouseY > pos.y + size) {
+    dir.y = 1;
+  }
+  if (mouseY < pos.y - size) {
+    dir.y = -1;
+  }
+  if (mouseX > pos.x + size) {
+    dir.x = 1;
+  }
+  if (mouseX < pos.x - size) {
+    dir.x = -1;
+  }
+}
+
+function touchEnded() {
+  dir = createVector();
 }
 
 function mouseClicked() {
